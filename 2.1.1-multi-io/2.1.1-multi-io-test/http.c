@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 
 #define BUFFER_LEN 1024
-#define MAX_CLIENT 2048
+#define MAX_CLIENT 4096
 
 int epfd = 0;
 
@@ -102,7 +102,7 @@ void recv_cb(int connfd) {
 
     }
     connlist[connfd].rbuflen += count;
-    printf("recv <-- %s\n", buf);
+    // printf("recv <-- %s\n", buf);
     memcpy(connlist[connfd].wbuffer, buf, connlist[connfd].rbuflen);
     connlist[connfd].wbuflen = connlist[connfd].rbuflen;
     connlist[connfd].rbuflen -= connlist[connfd].rbuflen;
@@ -114,7 +114,7 @@ void recv_cb(int connfd) {
 
 void send_cb(int connfd) {
     send(connfd, connlist[connfd].wbuffer, connlist[connfd].wbuflen, 0);
-    printf ("send --> %s\n", connlist[connfd].wbuffer);
+    // printf ("send --> %s\n", connlist[connfd].wbuffer);
 
     set_event(connfd, EPOLLIN, 0);
 }
